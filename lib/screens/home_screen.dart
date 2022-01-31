@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_application/screens/details_screen.dart';
+import 'package:form_application/widgets/general_text_field.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String name = "";
-  String address = "";
-  int age = 0;
-
+class HomeScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+  final ageController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,220 +25,119 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Form(
           key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Name:"),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  hintText: "Enter your name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Name:"),
+                const SizedBox(
+                  height: 10,
                 ),
-                onSaved: (value) {
-                  name = value!;
-                  setState(() {});
-                },
-                // controller: ,
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Please enter your name";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text("Age:"),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: "Enter your age",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                ),
-                // inputFormatters: [
-                //   // FilteringTextInputFormatter.deny("abc"),
-                // ],
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Please enter your age";
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  age = int.parse(value!);
-                  setState(() {});
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text("Address:"),
-              const SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "Enter your address",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueAccent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        15,
-                      ),
-                    ),
-                  ),
-                ),
-                onSaved: (value) {
-                  address = value!;
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Please enter your address";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => DetailsScreen(name, address, age),
-                        ),
-                      );
+                GeneralTextField(
+                  title: "name",
+                  controller: nameController,
+                  textInputType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  validate: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your name";
                     }
+                    return null;
                   },
-                  child: const Text("Submit"),
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Age:"),
+                const SizedBox(
+                  height: 10,
+                ),
+                GeneralTextField(
+                  title: "age",
+                  controller: ageController,
+                  textInputType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 3,
+                  inputFormatter: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp("^[0-9]*"),
+                    ),
+                  ],
+                  validate: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your age";
+                    } else if (int.parse(value) > 120) {
+                      return "Please enter a valid age";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Address:"),
+                const SizedBox(
+                  height: 10,
+                ),
+                GeneralTextField(
+                  title: "address",
+                  controller: addressController,
+                  textInputType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  validate: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your address";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Password:"),
+                const SizedBox(
+                  height: 10,
+                ),
+                GeneralTextField(
+                  title: "password",
+                  isObscure: true,
+                  controller: passwordController,
+                  textInputType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  validate: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your password";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailsScreen(
+                              nameController.text,
+                              addressController.text,
+                              int.parse(
+                                ageController.text,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("Submit"),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
