@@ -58,6 +58,7 @@ class _GeneralTextFieldState extends State<GeneralTextField> {
               )
             : null,
         hintText: "Enter your ${widget.title}",
+        counter: const SizedBox.shrink(),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.blueAccent,

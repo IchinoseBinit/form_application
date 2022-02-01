@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_application/screens/details_screen.dart';
+import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:form_application/widgets/general_text_field.dart';
 
-class HomeScreen extends StatelessWidget {
+class ContactScreen extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard"),
+        title: const Text("Contact Form"),
         centerTitle: true,
       ),
       body: Padding(
@@ -87,26 +88,6 @@ class HomeScreen extends StatelessWidget {
                   validate: (String? value) {
                     if (value!.trim().isEmpty) {
                       return "Please enter your address";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text("Password:"),
-                const SizedBox(
-                  height: 10,
-                ),
-                GeneralTextField(
-                  title: "password",
-                  isObscure: true,
-                  controller: passwordController,
-                  textInputType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  validate: (String? value) {
-                    if (value!.trim().isEmpty) {
-                      return "Please enter your password";
                     }
                     return null;
                   },
