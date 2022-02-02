@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_application/constants/constant.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen(this.name, this.address, this.age, {Key? key})
@@ -17,7 +18,7 @@ class DetailsScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: basePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

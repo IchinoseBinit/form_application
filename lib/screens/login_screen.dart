@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:form_application/constants/constant.dart';
 import 'package:form_application/screens/contact_screen.dart';
+import 'package:form_application/screens/register_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:form_application/widgets/general_text_field.dart';
 
@@ -11,6 +13,8 @@ class LoginScreen extends StatelessWidget {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  // setState
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +24,7 @@ class LoginScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: basePadding,
         child: Center(
           child: SingleChildScrollView(
             child: Form(
@@ -120,6 +124,28 @@ class LoginScreen extends StatelessWidget {
                         "Login",
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an Account?"),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => RegisterScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Register",
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

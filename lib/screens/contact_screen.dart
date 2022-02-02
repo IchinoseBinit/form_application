@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_application/constants/constant.dart';
 import 'package:form_application/screens/details_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:form_application/widgets/general_text_field.dart';
@@ -20,10 +21,7 @@ class ContactScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 16,
-        ),
+        padding: basePadding,
         child: Form(
           key: formKey,
           child: SingleChildScrollView(
