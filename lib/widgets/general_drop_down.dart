@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class GeneralDropDown extends StatefulWidget {
-  const GeneralDropDown(this.function, {Key? key}) : super(key: key);
+  const GeneralDropDown(this.method, {Key? key}) : super(key: key);
 
-  final Function(String) function;
+  final Function(String) method;
 
   @override
   State<GeneralDropDown> createState() => _GeneralDropDownState();
@@ -21,12 +21,12 @@ class _GeneralDropDownState extends State<GeneralDropDown> {
     ),
   ];
 
-  late String selectedValue;
+  String? selectedValue;
 
   @override
   void initState() {
     super.initState();
-    selectedValue = "Male";
+    // selectedValue = "Male";
   }
 
   @override
@@ -36,7 +36,7 @@ class _GeneralDropDownState extends State<GeneralDropDown> {
       onChanged: (value) {
         setState(() {
           selectedValue = value!;
-          widget.function(value);
+          widget.method(value);
         });
       },
       hint: const Text("Gender"),
