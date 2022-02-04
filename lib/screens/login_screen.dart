@@ -90,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         // if (formKey.currentState!.validate()) {
                         final username = usernameController.text;
                         final password = passwordController.text;
-                        GeneralAlertDialog().customAlertDialog(context);
+                        GeneralAlertDialog().customLoadingDialog(context);
                         await Future.delayed(
                           const Duration(seconds: 3),
                         );
