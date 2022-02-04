@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:form_application/constants/constant.dart';
+import 'package:form_application/constants/urls.dart';
+import 'package:form_application/screens/call_api_screen.dart';
+import 'package:form_application/utils/general_alert_dialog.dart';
+import 'package:http/http.dart' as http;
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen(this.name, this.address, this.age, {Key? key})
@@ -42,6 +46,24 @@ class DetailsScreen extends StatelessWidget {
             Text(
               "Age: $age",
               style: Theme.of(context).textTheme.bodyText1,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                GeneralAlertDialog().customLoadingDialog(context);
+                final response = await http.get(
+                  Uri.parse(getAllTodos),
+                );
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CallApiScreen(response.body),
+                  ),
+                );
+              },
+              child: Text("Call Api"),
             ),
           ],
         ),

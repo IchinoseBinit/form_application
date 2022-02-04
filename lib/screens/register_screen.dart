@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_application/constants/constant.dart';
+import 'package:form_application/screens/login_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:form_application/utils/general_bottom_sheet.dart';
 import 'package:form_application/widgets/general_check_box.dart';
@@ -139,6 +140,8 @@ class RegisterScreen extends StatelessWidget {
                             print("The gender is " + genderController.text);
                             print("The privacy policy is " +
                                 checkBoxController.text);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => LoginScreen()));
                           }
                         }
                         // }
