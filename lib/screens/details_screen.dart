@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:form_application/constants/constant.dart';
 import 'package:form_application/constants/urls.dart';
+import 'package:form_application/models/task_model.dart';
 import 'package:form_application/screens/call_api_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:http/http.dart' as http;
+// import 'package:provider';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen(this.name, this.address, this.age, {Key? key})
@@ -52,18 +56,25 @@ class DetailsScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
+                // String cityName = "Dharan";
+
                 GeneralAlertDialog().customLoadingDialog(context);
-                final response = await http.get(
+                http.Response response = await http.get(
                   Uri.parse(getAllTodos),
                 );
+                final decodedResponse = jsonDecode(response.body) as List;
+                List<TaskModel> tasksList = [];
+                for (var eachResponse in decodedResponse) {
+                  tasksList.add(TaskModel.fromJson(eachResponse));
+                }
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => CallApiScreen(response.body),
+                    builder: (_) => CallApiScreen(tasksList),
                   ),
                 );
               },
-              child: Text("Call Api"),
+              child: const Text("Call Api"),
             ),
           ],
         ),

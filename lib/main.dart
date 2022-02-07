@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:form_application/screens/contact_screen.dart';
-import 'package:form_application/screens/login_screen.dart';
-import 'package:form_application/screens/register_screen.dart';
+import 'package:path_provider/path_provider.dart';
+import '/screens/login_screen.dart';
+import 'package:hive/hive.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dir = await getApplicationDocumentsDirectory();
+  print(dir.path);
+  Hive.init(dir.path);
   runApp(const MyApp());
 }
 
@@ -17,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: LoginScreen(),
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }

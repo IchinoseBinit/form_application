@@ -8,6 +8,7 @@ import 'package:form_application/widgets/general_drop_down.dart';
 import 'package:form_application/widgets/general_radio_button.dart';
 import 'package:form_application/widgets/general_swtich.dart';
 import 'package:form_application/widgets/general_text_field.dart';
+import 'package:hive/hive.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
 
   final nameController = TextEditingController();
   final usernameController = TextEditingController();
-  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final genderController = TextEditingController();
   final checkBoxController = TextEditingController();
 
@@ -30,18 +31,17 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => GeneralAlertDialog().customAlertDialog(context),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Sign Up"),
-          centerTitle: true,
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: basePadding,
-          child: Form(
-            key: formKey,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sign Up"),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: basePadding,
+        child: Form(
+          key: formKey,
+          child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -62,17 +62,7 @@ class RegisterScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
-                  getSizedBox(10),
-                  const Text("Name"),
-                  getSizedBox(5),
-                  GeneralTextField(
-                    title: "name",
-                    controller: nameController,
-                    textInputType: TextInputType.name,
-                    textInputAction: TextInputAction.next,
-                    validate: (value) =>
-                        value!.trim().isEmpty ? "Please enter a name" : null,
-                  ),
+
                   getSizedBox(10),
                   const Text("Username"),
                   getSizedBox(5),
@@ -86,15 +76,17 @@ class RegisterScreen extends StatelessWidget {
                         : null,
                   ),
                   getSizedBox(10),
-                  const Text("Email"),
+                  const Text("Password"),
                   getSizedBox(5),
                   GeneralTextField(
-                    title: "Email",
-                    controller: emailController,
+                    title: "Password",
+                    controller: passwordController,
+                    isObscure: true,
                     textInputType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.done,
-                    validate: (value) =>
-                        value!.trim().isEmpty ? "Please enter a email" : null,
+                    validate: (value) => value!.trim().isEmpty
+                        ? "Please enter a password"
+                        : null,
                   ),
                   // getSizedBox(10),
                   // Row(
@@ -122,9 +114,6 @@ class RegisterScreen extends StatelessWidget {
                       const Text("I agree to privacy and policy"),
                     ],
                   ),
-                  getSizedBox(10),
-                  const Text("Gender"),
-                  GeneralRadioButton(changeGenderValue),
                   getSizedBox(20),
                   Center(
                     child: ElevatedButton(
@@ -134,14 +123,43 @@ class RegisterScreen extends StatelessWidget {
                             .customBottomSheet(context);
                         if (toRegister != null) {
                           if (toRegister) {
-                            print("The name is " + nameController.text);
-                            print("The username is " + usernameController.text);
-                            print("The email is " + emailController.text);
-                            print("The gender is " + genderController.text);
-                            print("The privacy policy is " +
-                                checkBoxController.text);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => LoginScreen()));
+                            GeneralAlertDialog().customLoadingDialog(context);
+                            final box =
+                                await Hive.openBox(UserConstants.credentialBox);
+                            await Future.delayed(const Duration(seconds: 2));
+                            final List usernameList = box.get(
+                              UserConstants.usernameKey,
+                              defaultValue: [],
+                            );
+                            final List passwordList = box.get(
+                              UserConstants.passwordKey,
+                              defaultValue: [],
+                            );
+
+                            if (usernameList
+                                .contains(usernameController.text)) {
+                              Navigator.of(context).pop();
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "User already exists",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              usernameList.add(usernameController.text);
+                              passwordList.add(passwordController.text);
+
+                              await box.put(
+                                  UserConstants.usernameKey, usernameList);
+                              await box.put(
+                                  UserConstants.passwordKey, passwordList);
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => LoginScreen()));
+                            }
                           }
                         }
                         // }
