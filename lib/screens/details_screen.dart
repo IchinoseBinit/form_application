@@ -3,19 +3,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:form_application/constants/constant.dart';
 import 'package:form_application/constants/urls.dart';
+import 'package:form_application/models/details_model.dart';
 import 'package:form_application/models/task_model.dart';
 import 'package:form_application/screens/call_api_screen.dart';
+import 'package:form_application/screens/login_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:http/http.dart' as http;
 // import 'package:provider';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen(this.name, this.address, this.age, {Key? key})
-      : super(key: key);
+  const DetailsScreen(this.model, {Key? key}) : super(key: key);
 
-  final String name;
-  final String address;
-  final int age;
+  final DetailsModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class DetailsScreen extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                "Name: $name",
+                "Name: ${model.name}",
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),
@@ -41,17 +40,17 @@ class DetailsScreen extends StatelessWidget {
               height: 10,
             ),
             Text(
-              "Address: $address",
+              "Address: ${model.address}",
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Age: $age",
+              "Age: ${model.age}",
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
@@ -77,6 +76,22 @@ class DetailsScreen extends StatelessWidget {
               child: const Text("Call Api"),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: basePadding,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => LoginScreen(),
+              ),
+            );
+          },
+          child: const Text("Logout"),
+          style: ElevatedButton.styleFrom(
+            primary: Theme.of(context).errorColor,
+          ),
         ),
       ),
     );

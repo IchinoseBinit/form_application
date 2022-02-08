@@ -10,3 +10,8 @@ class UserConstants {
   static const usernameKey = "username";
   static const passwordKey = "password";
 }
+
+class DetailsConstants {
+  static const detailsBox = "details";
+  static const info = "info";
+}

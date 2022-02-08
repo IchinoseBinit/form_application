@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:form_application/constants/constant.dart';
+import 'package:form_application/models/details_model.dart';
 import 'package:form_application/screens/contact_screen.dart';
+import 'package:form_application/screens/details_screen.dart';
 import 'package:form_application/screens/register_screen.dart';
 import 'package:form_application/utils/general_alert_dialog.dart';
 import 'package:form_application/widgets/general_text_field.dart';
@@ -107,17 +110,34 @@ class LoginScreen extends StatelessWidget {
                             UserConstants.passwordKey,
                             defaultValue: [],
                           );
-                          final boxIndex =
-                              usernameList.indexOf(usernameController.text);
+                          final boxIndex = usernameList.indexOf(username);
                           Navigator.pop(context);
                           if (boxIndex >= 0) {
                             if (password == passwordList[boxIndex]) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ContactScreen(),
-                                ),
+                              final detailBox = await Hive.openBox(
+                                  DetailsConstants.detailsBox);
+                              final List informationList = detailBox
+                                  .get(DetailsConstants.info, defaultValue: []);
+                              final info = informationList.firstWhereOrNull(
+                                (element) => element["username"] == username,
                               );
+                              if (info == null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ContactScreen(username),
+                                  ),
+                                );
+                              } else {
+                                final detailsModel =
+                                    DetailsModel.fromJson(info);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DetailsScreen(detailsModel),
+                                  ),
+                                );
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

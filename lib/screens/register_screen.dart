@@ -157,8 +157,7 @@ class RegisterScreen extends StatelessWidget {
                               await box.put(
                                   UserConstants.passwordKey, passwordList);
                               Navigator.of(context).pop();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => LoginScreen()));
+                              Navigator.of(context).pop();
                             }
                           }
                         }
